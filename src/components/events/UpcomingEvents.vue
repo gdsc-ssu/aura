@@ -8,19 +8,37 @@
     <v-row
       align="center"
       justify="center"
-      :style="{'background-image':'url('+require('@/assets/img/svg/bg.svg')+')'}"
+      :style="{
+        'background-image': 'url(' + require('@/assets/img/svg/bg.svg') + ')',
+      }"
       style="background-position:right"
     >
       <v-col cols="12" md="12" lg="12" sm="12" class>
-        <p class="google-font mb-0" style="font-size:150%;color: #1a73e8;">Upcoming Events</p>
-        <p
-          class="google-font mt-0"
-          style="font-size:95%"
-        >Our events are open to newbies, developers, managers, and organizations who are interested in Google's technologies or use them as part of their projects.</p>
+        <p class="google-font mb-0" style="font-size:150%;color: #1a73e8;">
+          Upcoming Events
+        </p>
+        <p class="google-font mt-0" style="font-size:95%">
+          우리의 이벤트는 Google의 기술에 관심이 있거나 이를 프로젝트의 일부로
+          사용하는 초보자, 개발자, 관리자 및 조직에 열려 있습니다.
+        </p>
         <v-row v-if="showLoader">
-          <v-col md="3" lg="3" sm="6" cols="12" class="pa-2" v-for="(item,i) in 3" :key="i">
-            <v-sheet :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`" class>
-              <v-skeleton-loader class="mx-auto" type="article"></v-skeleton-loader>
+          <v-col
+            md="3"
+            lg="3"
+            sm="6"
+            cols="12"
+            class="pa-2"
+            v-for="(item, i) in 3"
+            :key="i"
+          >
+            <v-sheet
+              :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+              class
+            >
+              <v-skeleton-loader
+                class="mx-auto"
+                type="article"
+              ></v-skeleton-loader>
             </v-sheet>
           </v-col>
         </v-row>
@@ -32,11 +50,11 @@
             sm="6"
             cols="12"
             class="pa-2"
-            v-for="(item,i) in eventsData"
+            v-for="(item, i) in eventsData"
             :key="i"
           >
             <v-slide-y-reverse-transition>
-              <upcomingEventCard v-show="showData" :data="{data:item}" />
+              <upcomingEventCard v-show="showData" :data="{ data: item }" />
             </v-slide-y-reverse-transition>
           </v-col>
         </v-row>
@@ -48,7 +66,7 @@
             sm="6"
             cols="12"
             class="pa-3"
-            :class="$vuetify.theme.dark == true?'darkModeCard':'card-light'"
+            :class="$vuetify.theme.dark == true ? 'darkModeCard' : 'card-light'"
           >
             <p class="google-font px-2 mb-0" style="font-size:140%">
               <v-icon>mdi-calendar-blank</v-icon>
@@ -62,16 +80,16 @@
 </template>
 
 <script>
-import service from "@/services/appservices";
-import { mapState } from "vuex";
+import service from '@/services/appservices';
+import { mapState } from 'vuex';
 export default {
-  name: "App",
-  inject: ["theme"],
+  name: 'App',
+  inject: ['theme'],
   components: {
-    upcomingEventCard:()=>import('@/components/events/UpcomingEventCard')
+    upcomingEventCard: () => import('@/components/events/UpcomingEventCard'),
   },
   computed: {
-    ...mapState(["config"])
+    ...mapState(['config']),
   },
   data: () => ({
     eventsData: [],
@@ -79,7 +97,7 @@ export default {
     showData: false,
     notFoundUpcomingEventFlag: false,
     errorAlert: false,
-    errorMsg: ""
+    errorMsg: '',
   }),
   mounted() {
     this.getMeetupUrl();
@@ -88,7 +106,7 @@ export default {
     getMeetupUrl() {
       service
         .getAllUpcomingMeetupsEvents(this.config.keysandsecurity.meetup)
-        .then(res => {
+        .then((res) => {
           if (res.success) {
             if (res.data.length > 0) {
               this.showLoader = false;
@@ -102,13 +120,13 @@ export default {
             this.showLoader = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.showLoader = false;
-          this.errorMsg = "Issue found with " + e;
+          this.errorMsg = 'Issue found with ' + e;
           this.errorAlert = true;
           this.notFoundUpcomingEventFlag = true;
         });
-    }
-  }
+    },
+  },
 };
 </script>
