@@ -9,7 +9,12 @@
         <br />
         <p class="google-font">{{ data.shortDescription }}</p>
         <p class="google-font mt-5">
-          Questions? Please contact {{ data.email }}
+          궁금한점이 있다면
+          <a
+            style="color:#1565C0;text-decoration: none;"
+            :href="`mailto:${config.generalConfig.email}`"
+            >{{ config.generalConfig.email }}</a
+          >로 연락주세요.
         </p>
         <CommunitySocialInfo :config="config" class="mb-2" />
         <span v-for="(item, i) in data.hashtags" :key="i">
